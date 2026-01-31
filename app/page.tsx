@@ -61,7 +61,12 @@ export default function SurveyPage() {
 
   return (
     <div>
-      <h1 style={{ marginTop: 0, marginBottom: '30px', color: '#333' }}>Survey</h1>
+      <h1 style={{ marginTop: 0, marginBottom: '8px', color: '#333', textAlign: 'center', fontSize: '28px' }}>
+        Revue Studios AI Talk Survey
+      </h1>
+      <p style={{ marginTop: 0, marginBottom: '30px', color: '#666', textAlign: 'center', fontSize: '16px' }}>
+        Please complete by Monday afternoon
+      </p>
 
       <form onSubmit={handleSubmit}>
         <label style={labelStyle}>
