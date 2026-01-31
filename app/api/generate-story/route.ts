@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
-import { updateFavoriteFoodAndCity } from '@/lib/csv';
+import { supabase } from '@/lib/supabase';
 
 const anthropic = new Anthropic();
 
@@ -16,9 +16,19 @@ export async function POST(request: Request) {
       );
     }
 
-    // Update the CSV with the favorite food and city
+    // Update the record with the favorite food and city
     if (id) {
-      updateFavoriteFoodAndCity(id, favoriteFood, favoriteCity);
+      const { error } = await supabase
+        .from('survey_responses')
+        .update({
+          favorite_food: favoriteFood,
+          favorite_city: favoriteCity,
+        })
+        .eq('id', id);
+
+      if (error) {
+        console.error('Supabase update error:', error);
+      }
     }
 
     // Generate the story using Claude

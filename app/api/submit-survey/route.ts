@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { appendSurveyResponse } from '@/lib/csv';
+import { supabase } from '@/lib/supabase';
 
 export async function POST(request: Request) {
   try {
@@ -13,13 +13,25 @@ export async function POST(request: Request) {
       );
     }
 
-    const id = appendSurveyResponse({
-      aiLearning,
-      toolsUsed,
-      movieIdea,
-    });
+    const { data, error } = await supabase
+      .from('survey_responses')
+      .insert({
+        ai_learning: aiLearning,
+        tools_used: toolsUsed,
+        movie_idea: movieIdea,
+      })
+      .select('id')
+      .single();
 
-    return NextResponse.json({ success: true, id });
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json(
+        { error: 'Failed to save survey' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ success: true, id: data.id });
   } catch (error) {
     console.error('Error saving survey:', error);
     return NextResponse.json(
