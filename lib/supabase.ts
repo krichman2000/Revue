@@ -20,4 +20,5 @@ export type DevelopmentIdea = {
   created_at?: string;
   logline: string;
   plot_summary: string;
+  outline?: string;
 };
