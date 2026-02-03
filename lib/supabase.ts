@@ -14,3 +14,10 @@ export type SurveyResponse = {
   favorite_food?: string;
   favorite_city?: string;
 };
+
+export type DevelopmentIdea = {
+  id?: number;
+  created_at?: string;
+  logline: string;
+  plot_summary: string;
+};
