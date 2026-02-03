@@ -93,7 +93,7 @@ export async function POST(request: Request) {
 
     // Generate the plot summary using Claude Opus 4.5 (most creative model)
     const message = await anthropic.messages.create({
-      model: 'claude-opus-4-5-20250514',
+      model: 'claude-sonnet-4-20250514',
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [
