@@ -103,24 +103,31 @@ export async function POST(request: Request) {
 
 "${logline}"
 
-Please develop this into a ONE PAGE detailed plot and character summary. Include:
+Please develop this into a ONE PAGE development document. Use the EXACT format below with these section headers (no # symbols, no markdown, just plain text with the section names in ALL CAPS followed by a colon):
 
-1. **CONCEPT OVERVIEW** - What excites you about this idea? What's the hook? Who's the target audience? What are the comps (comparable projects)?
+LOGLINE:
+[Restate and possibly refine the logline - make it punchy and compelling]
 
-2. **PROTAGONIST** - Who is our main character? What do they WANT (external goal) and what do they NEED (internal/emotional arc)? Give them a name, age range, key traits, and flaws.
+DETAILED PLOT SUMMARY:
+[A compelling narrative summary of the full story from beginning to end. Include the setup, major turning points, and resolution. Make it vivid and specific - this should read like a mini-treatment.]
 
-3. **SUPPORTING CHARACTERS** - 2-3 key supporting characters with their roles in the story and relationships to the protagonist.
+CHARACTER SUMMARY:
+[Introduce the protagonist with their name, age range, key traits, flaws, WANT (external goal) and NEED (internal arc). Then briefly introduce 2-3 key supporting characters and their relationships to the protagonist.]
 
-4. **THREE-ACT STRUCTURE**
-   - Act 1: Setup and inciting incident
-   - Act 2: Rising action, midpoint turn, and escalating conflict
-   - Act 3: Climax and resolution
+ACT BREAKDOWN:
+[Break down the three-act structure:
+Act 1 - Setup and inciting incident
+Act 2 - Rising action, midpoint turn, escalating conflict, all-is-lost moment
+Act 3 - Climax and resolution
+Be specific about what happens in each act.]
 
-5. **TONE & STYLE** - What does this movie FEEL like? Visual references, tonal comps, the mood we're going for.
+REASONS WHY THIS WILL WORK AT THE BOX OFFICE:
+[Give 3-4 compelling reasons why this project is commercially viable. Consider: target audience, comparable hits, current market trends, built-in appeal, franchise potential, casting possibilities, etc.]
 
-6. **THE ENDING** - How does this story land? What's the emotional takeaway?
+RISKS:
+[Be honest about 2-3 potential challenges or risks with this project. Consider: market saturation, budget concerns, tone challenges, audience expectations, etc. Then briefly suggest how each risk could be mitigated.]
 
-Be specific, be bold, make creative choices. This should feel like a development document from a real studio.`,
+Be specific, be bold, make creative choices. Write in a confident, professional tone - like a seasoned development executive pitching to a studio head.`,
         },
       ],
     });
