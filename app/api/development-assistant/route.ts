@@ -103,31 +103,55 @@ export async function POST(request: Request) {
 
 "${logline}"
 
-Please develop this into a ONE PAGE development document. Use the EXACT format below with these section headers (no # symbols, no markdown, just plain text with the section names in ALL CAPS followed by a colon):
+Please develop this into a development document with TWO OPTIONS - one pitched for STREAMING and one for THEATRICAL release. Use the EXACT format below (no # symbols, no markdown, just plain text with section names in ALL CAPS):
+
+===========================================
+OPTION 1: STREAMING PITCH
+===========================================
 
 LOGLINE:
-[Restate and possibly refine the logline - make it punchy and compelling]
+[Restate and refine the logline - tailor it for streaming audiences]
 
 DETAILED PLOT SUMMARY:
-[A compelling narrative summary of the full story from beginning to end. Include the setup, major turning points, and resolution. Make it vivid and specific - this should read like a mini-treatment.]
+[A compelling narrative summary of the full story. Consider streaming-friendly elements: bingeable hooks, character depth over spectacle, intimate storytelling, potential for limited series expansion.]
 
 CHARACTER SUMMARY:
-[Introduce the protagonist with their name, age range, key traits, flaws, WANT (external goal) and NEED (internal arc). Then briefly introduce 2-3 key supporting characters and their relationships to the protagonist.]
+[Protagonist with name, age range, traits, flaws, WANT and NEED. Then 2-3 supporting characters. Emphasize complex, morally gray characters that streaming audiences love.]
 
 ACT BREAKDOWN:
-[Break down the three-act structure:
-Act 1 - Setup and inciting incident
-Act 2 - Rising action, midpoint turn, escalating conflict, all-is-lost moment
-Act 3 - Climax and resolution
-Be specific about what happens in each act.]
+[Three-act structure with specific beats. Consider episode break points if this could expand to limited series.]
 
-REASONS WHY THIS WILL WORK AT THE BOX OFFICE:
-[Give 3-4 compelling reasons why this project is commercially viable. Consider: target audience, comparable hits, current market trends, built-in appeal, franchise potential, casting possibilities, etc.]
+WHY THIS WORKS FOR STREAMING:
+[3-4 reasons why Netflix, Amazon, Apple TV+, Max, etc. would want this. Consider: prestige appeal, awards potential, binge factor, demographic targeting, talent attachments, IP potential.]
 
 RISKS:
-[Be honest about 2-3 potential challenges or risks with this project. Consider: market saturation, budget concerns, tone challenges, audience expectations, etc. Then briefly suggest how each risk could be mitigated.]
+[2-3 challenges and how to mitigate them in the streaming context.]
 
-Be specific, be bold, make creative choices. Write in a confident, professional tone - like a seasoned development executive pitching to a studio head.`,
+===========================================
+OPTION 2: THEATRICAL PITCH
+===========================================
+
+LOGLINE:
+[Restate and refine the logline - make it big, bold, theatrical]
+
+DETAILED PLOT SUMMARY:
+[Same core story but emphasize theatrical elements: spectacle, set pieces, communal viewing experience, big emotional moments that play to a crowd.]
+
+CHARACTER SUMMARY:
+[Same characters but emphasize star vehicle potential, iconic moments, quotable dialogue.]
+
+ACT BREAKDOWN:
+[Three-act structure optimized for theatrical pacing - strong act breaks, intermission-worthy midpoint, crowd-pleasing climax.]
+
+WHY THIS WORKS FOR THEATRICAL:
+[3-4 reasons why this deserves the big screen. Consider: box office comps, opening weekend potential, four-quadrant appeal, franchise possibility, international markets, IMAX/premium formats.]
+
+RISKS:
+[2-3 challenges specific to theatrical release and how to mitigate them.]
+
+===========================================
+
+Be specific, be bold, make creative choices. Write like a seasoned development executive who knows both markets inside and out.`,
         },
       ],
     });
