@@ -1,8 +1,12 @@
-import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { supabase } from '@/lib/supabase';
 
-const anthropic = new Anthropic();
+function getAnthropicClient() {
+  return new Anthropic({
+    timeout: 120000,
+    maxRetries: 2,
+  });
+}
 
 const SYSTEM_PROMPT = `You are an elite Hollywood screenwriter and story architect. You create detailed, professional screenplay outlines that serve as blueprints for writers. Your outlines are specific, visual, and emotionally resonant - never generic or vague.`;
 
@@ -12,12 +16,13 @@ export async function POST(request: Request) {
     const { logline, plotSummary } = body;
 
     if (!logline || !plotSummary) {
-      return NextResponse.json(
+      return Response.json(
         { error: 'Logline and plot summary are required' },
         { status: 400 }
       );
     }
 
+    const anthropic = getAnthropicClient();
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 4096,
@@ -98,11 +103,12 @@ Be SPECIFIC with scene locations, character names, and actions. This should read
       console.error('Supabase update error:', dbError);
     }
 
-    return NextResponse.json({ outline });
+    return Response.json({ outline });
   } catch (error) {
     console.error('Error generating outline:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate outline. Please try again.' },
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return Response.json(
+      { error: `Failed to generate outline: ${errorMessage}` },
       { status: 500 }
     );
   }
