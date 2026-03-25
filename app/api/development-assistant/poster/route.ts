@@ -54,15 +54,19 @@ Additional context: ${plotSummary ? plotSummary.slice(0, 500) : 'A compelling st
       style: 'vivid',
     });
 
-    const imageUrl = response.data[0]?.url;
+    if (!response.data || response.data.length === 0) {
+      throw new Error('No image generated');
+    }
+
+    const imageUrl = response.data[0].url;
 
     if (!imageUrl) {
-      throw new Error('No image generated');
+      throw new Error('No image URL in response');
     }
 
     return Response.json({
       imageUrl,
-      revisedPrompt: response.data[0]?.revised_prompt
+      revisedPrompt: response.data[0].revised_prompt
     });
   } catch (error) {
     console.error('Error generating poster:', error);
