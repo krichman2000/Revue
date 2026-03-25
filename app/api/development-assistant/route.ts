@@ -185,7 +185,7 @@ You are my go-to creative partner for any of the following:
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { logline, format = 'movie', platform = 'netflix', budget = 'mid' } = body;
+    const { logline, format = 'movie', platform = 'netflix', budget = 'mid', executiveName, executiveProfile } = body;
 
     if (!logline || typeof logline !== 'string' || logline.trim().length === 0) {
       return new Response(
@@ -197,6 +197,16 @@ export async function POST(request: Request) {
     const formatLabel = format === 'movie' ? 'Feature Film' : 'Limited Series';
     const platformInfo = getPlatformContext(platform);
     const budgetInfo = getBudgetContext(budget);
+
+    // Build executive context if provided
+    const executiveContext = executiveName && executiveProfile ? `
+
+EXECUTIVE TARGET: ${executiveName}
+You are pitching DIRECTLY to ${executiveName}. Here is their profile based on research:
+
+${executiveProfile}
+
+CRITICAL: Tailor EVERY aspect of this pitch to appeal specifically to ${executiveName}'s known preferences, decision-making style, and strategic priorities. Reference their past decisions and stated preferences where relevant. Frame the pitch in language and concepts that will resonate with them personally.` : '';
 
     // Verify API key is set
     if (!process.env.ANTHROPIC_API_KEY) {
@@ -219,6 +229,7 @@ export async function POST(request: Request) {
           content: `Here's a logline for a ${formatLabel} being developed for ${platformInfo.name} with a ${budgetInfo.range} budget:
 
 "${logline}"
+${executiveContext}
 
 PLATFORM CONTEXT FOR ${platformInfo.name.toUpperCase()}:
 - Sensibility: ${platformInfo.sensibility}
@@ -260,8 +271,11 @@ BUDGET BREAKDOWN STRATEGY:
 
 RISKS & MITIGATIONS:
 [2-3 challenges specific to this project at ${platformInfo.name} and smart ways to address them.]
+${executiveName ? `
+TAILORED FOR ${executiveName.toUpperCase()}:
+[Specific talking points for your meeting with ${executiveName}. What aspects of this project will appeal to their known preferences? What language should you use? What comparisons will resonate with them? How should you frame this to match their decision-making style?]` : ''}
 
-Be specific, be bold, make creative choices. Write like a seasoned development executive who knows ${platformInfo.name}'s slate inside and out and is pitching directly to their team.`,
+Be specific, be bold, make creative choices. Write like a seasoned development executive who knows ${platformInfo.name}'s slate inside and out and is pitching directly to their team.${executiveName ? ` You are preparing to pitch to ${executiveName} personally - make every word count for that specific meeting.` : ''}`,
         },
       ],
     });

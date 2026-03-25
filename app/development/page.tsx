@@ -57,6 +57,11 @@ export default function DevelopmentAssistantPage() {
   const [activeSection, setActiveSection] = useState<ActiveSection>('pitch');
   const [error, setError] = useState<string | null>(null);
 
+  // Executive research
+  const [executiveName, setExecutiveName] = useState('');
+  const [executiveProfile, setExecutiveProfile] = useState('');
+  const [isResearchingExecutive, setIsResearchingExecutive] = useState(false);
+
   // Additional content sections
   const [outlineContent, setOutlineContent] = useState('');
   const [castingContent, setCastingContent] = useState('');
@@ -80,6 +85,35 @@ export default function DevelopmentAssistantPage() {
   const getPlatformLabel = () => PLATFORMS.find(p => p.value === platform)?.label || platform;
   const getBudgetLabel = () => BUDGETS.find(b => b.value === budget)?.label || budget;
 
+  const handleResearchExecutive = async () => {
+    if (!executiveName.trim()) return;
+
+    setIsResearchingExecutive(true);
+    setError(null);
+    setExecutiveProfile('');
+
+    try {
+      const response = await fetch('/api/development-assistant/executive-research', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ executiveName, platform: getPlatformLabel() }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Failed to research executive');
+        return;
+      }
+
+      setExecutiveProfile(data.executiveProfile);
+    } catch {
+      setError('Failed to research executive');
+    } finally {
+      setIsResearchingExecutive(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!logline.trim()) return;
@@ -97,7 +131,14 @@ export default function DevelopmentAssistantPage() {
       const response = await fetch('/api/development-assistant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ logline, format, platform, budget }),
+        body: JSON.stringify({
+          logline,
+          format,
+          platform,
+          budget,
+          executiveName: executiveName.trim() || undefined,
+          executiveProfile: executiveProfile || undefined,
+        }),
       });
 
       const data = await response.json();
@@ -301,13 +342,15 @@ export default function DevelopmentAssistantPage() {
 
   const handleReset = () => {
     setLogline('');
-        setFullContent('');
+    setFullContent('');
     setOutlineContent('');
     setCastingContent('');
     setOpeningContent('');
     setError(null);
     setActiveSection('pitch');
     setPosterUrl(null);
+    setExecutiveName('');
+    setExecutiveProfile('');
   };
 
   const generatePoster = async () => {
@@ -445,6 +488,18 @@ export default function DevelopmentAssistantPage() {
                 }}>
                   {getBudgetLabel()}
                 </span>
+                {executiveName && (
+                  <span style={{
+                    padding: '4px 12px',
+                    backgroundColor: '#7c3aed',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                  }}>
+                    For: {executiveName}
+                  </span>
+                )}
               </div>
             </div>
             <p style={{
@@ -818,6 +873,103 @@ export default function DevelopmentAssistantPage() {
 
         {/* Form */}
         <form onSubmit={handleSubmit}>
+          {/* Executive Research Section */}
+          <div style={{
+            marginBottom: '32px',
+            padding: '20px',
+            backgroundColor: '#12121a',
+            border: '1px solid #2a2a3a',
+            borderRadius: '12px',
+          }}>
+            <label style={{
+              display: 'block',
+              fontSize: '11px',
+              textTransform: 'uppercase',
+              letterSpacing: '2px',
+              color: '#c9a227',
+              marginBottom: '12px',
+              fontFamily: 'Inter, sans-serif',
+            }}>
+              Pitching to an Executive? (Optional)
+            </label>
+            <p style={{
+              fontSize: '13px',
+              color: '#666',
+              marginBottom: '12px',
+              fontFamily: 'Inter, sans-serif',
+            }}>
+              Enter their name to research their preferences and tailor the pitch
+            </p>
+            <div style={{ display: 'flex', gap: '12px', marginBottom: executiveProfile ? '16px' : '0' }}>
+              <input
+                type="text"
+                value={executiveName}
+                onChange={(e) => setExecutiveName(e.target.value)}
+                placeholder="e.g., Ted Sarandos, Casey Bloys, Dana Walden..."
+                style={{
+                  flex: 1,
+                  padding: '14px 16px',
+                  fontSize: '15px',
+                  fontFamily: 'Inter, sans-serif',
+                  backgroundColor: '#0a0a0f',
+                  color: '#e5e5e5',
+                  border: '1px solid #2a2a3a',
+                  borderRadius: '8px',
+                }}
+              />
+              <button
+                type="button"
+                onClick={handleResearchExecutive}
+                disabled={isResearchingExecutive || !executiveName.trim()}
+                style={{
+                  padding: '14px 24px',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  fontFamily: 'Inter, sans-serif',
+                  backgroundColor: isResearchingExecutive ? '#2a2a3a' : executiveProfile ? '#059669' : '#7c3aed',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: isResearchingExecutive || !executiveName.trim() ? 'not-allowed' : 'pointer',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {isResearchingExecutive ? 'Researching...' : executiveProfile ? 'Researched ✓' : 'Research'}
+              </button>
+            </div>
+            {executiveProfile && (
+              <div style={{
+                backgroundColor: '#0a0a0f',
+                border: '1px solid #2a2a3a',
+                borderRadius: '8px',
+                padding: '16px',
+                maxHeight: '200px',
+                overflowY: 'auto',
+              }}>
+                <div style={{
+                  fontSize: '10px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '2px',
+                  color: '#c9a227',
+                  marginBottom: '8px',
+                  fontFamily: 'Inter, sans-serif',
+                }}>
+                  Executive Profile
+                </div>
+                <div style={{
+                  fontSize: '13px',
+                  color: '#999',
+                  fontFamily: 'Inter, sans-serif',
+                  lineHeight: 1.6,
+                  whiteSpace: 'pre-wrap',
+                }}>
+                  {executiveProfile}
+                </div>
+              </div>
+            )}
+          </div>
+
           <div style={{ marginBottom: '24px' }}>
             <label style={{
               display: 'block',
@@ -1022,10 +1174,11 @@ export default function DevelopmentAssistantPage() {
             fontSize: '13px',
             fontFamily: 'Inter, sans-serif',
           }}>
-            <span><span style={{ color: '#c9a227' }}>Dual Pitch</span> (Streaming & Theatrical)</span>
+            <span><span style={{ color: '#c9a227' }}>Executive-Tailored Pitch</span></span>
             <span><span style={{ color: '#c9a227' }}>Outline</span></span>
             <span><span style={{ color: '#c9a227' }}>Casting</span></span>
             <span><span style={{ color: '#c9a227' }}>Opening Scene</span></span>
+            <span><span style={{ color: '#c9a227' }}>Poster Art</span></span>
           </div>
         </div>
       </div>
