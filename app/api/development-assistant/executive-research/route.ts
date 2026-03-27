@@ -10,7 +10,7 @@ function getAnthropicClient() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { executiveName, platform } = body;
+    const { executiveName } = body;
 
     if (!executiveName || typeof executiveName !== 'string' || executiveName.trim().length === 0) {
       return Response.json(
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
       messages: [
         {
           role: 'user',
-          content: `Research the entertainment executive: ${executiveName}${platform ? ` (currently or previously at ${platform})` : ''}
+          content: `Research the entertainment executive: ${executiveName}
 
 ${searchContext}
 
