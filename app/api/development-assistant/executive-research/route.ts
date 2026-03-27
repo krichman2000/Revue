@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk';
 function getAnthropicClient() {
   return new Anthropic({
     timeout: 120000,
-    maxRetries: 2,
+    maxRetries: 5,
   });
 }
 
@@ -105,6 +105,16 @@ If you don't have specific information about this executive, provide your best a
     });
   } catch (error) {
     console.error('Error researching executive:', error);
+
+    // Check for overload error
+    const errorString = String(error);
+    if (errorString.includes('overloaded') || errorString.includes('529')) {
+      return Response.json(
+        { error: 'AI service is temporarily busy. Please try again in a few seconds.' },
+        { status: 503 }
+      );
+    }
+
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return Response.json(
       { error: `Failed to research executive: ${errorMessage}` },
