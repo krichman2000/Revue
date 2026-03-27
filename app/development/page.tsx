@@ -800,8 +800,8 @@ export default function DevelopmentAssistantPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#0a0a0f',
-      color: '#e5e5e5',
+      backgroundColor: '#f5f5f7',
+      color: '#1a1a1a',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
@@ -814,7 +814,7 @@ export default function DevelopmentAssistantPage() {
             fontSize: '42px',
             fontWeight: 600,
             margin: 0,
-            background: 'linear-gradient(135deg, #c9a227 0%, #f4d03f 50%, #c9a227 100%)',
+            background: 'linear-gradient(135deg, #8b6914 0%, #c9a227 50%, #8b6914 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             letterSpacing: '-0.5px',
@@ -822,7 +822,7 @@ export default function DevelopmentAssistantPage() {
             Development Assistant
           </h1>
           <p style={{
-            color: '#888',
+            color: '#666',
             marginTop: '12px',
             fontFamily: 'Inter, sans-serif',
             fontSize: '16px',
@@ -846,13 +846,111 @@ export default function DevelopmentAssistantPage() {
           </div>
         )}
 
+        {/* Executive Research Section */}
+        <div style={{
+          marginBottom: '32px',
+          padding: '20px',
+          backgroundColor: '#ffffff',
+          border: '1px solid #e0e0e0',
+          borderRadius: '12px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+        }}>
+          <label style={{
+            display: 'block',
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+            color: '#8b6914',
+            marginBottom: '12px',
+            fontFamily: 'Inter, sans-serif',
+          }}>
+            Pitching to an Executive? (Optional)
+          </label>
+          <p style={{
+            fontSize: '13px',
+            color: '#666',
+            marginBottom: '12px',
+            fontFamily: 'Inter, sans-serif',
+          }}>
+            Enter their name to research their preferences and tailor the pitch
+          </p>
+          <div style={{ display: 'flex', gap: '12px', marginBottom: executiveProfile ? '16px' : '0' }}>
+            <input
+              type="text"
+              value={executiveName}
+              onChange={(e) => setExecutiveName(e.target.value)}
+              placeholder="e.g., Ted Sarandos, Casey Bloys, Dana Walden..."
+              style={{
+                flex: 1,
+                padding: '14px 16px',
+                fontSize: '15px',
+                fontFamily: 'Inter, sans-serif',
+                backgroundColor: '#fafafa',
+                color: '#1a1a1a',
+                border: '1px solid #e0e0e0',
+                borderRadius: '8px',
+              }}
+            />
+            <button
+              type="button"
+              onClick={handleResearchExecutive}
+              disabled={isResearchingExecutive || !executiveName.trim()}
+              style={{
+                padding: '14px 24px',
+                fontSize: '14px',
+                fontWeight: 500,
+                fontFamily: 'Inter, sans-serif',
+                backgroundColor: isResearchingExecutive ? '#ccc' : executiveProfile ? '#059669' : '#7c3aed',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: isResearchingExecutive || !executiveName.trim() ? 'not-allowed' : 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              {isResearchingExecutive ? 'Researching...' : executiveProfile ? 'Researched ✓' : 'Research'}
+            </button>
+          </div>
+          {executiveProfile && (
+            <div style={{
+              backgroundColor: '#fafafa',
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px',
+              padding: '16px',
+              maxHeight: '200px',
+              overflowY: 'auto',
+            }}>
+              <div style={{
+                fontSize: '10px',
+                textTransform: 'uppercase',
+                letterSpacing: '2px',
+                color: '#8b6914',
+                marginBottom: '8px',
+                fontFamily: 'Inter, sans-serif',
+              }}>
+                Executive Profile
+              </div>
+              <div style={{
+                fontSize: '13px',
+                color: '#555',
+                fontFamily: 'Inter, sans-serif',
+                lineHeight: 1.6,
+                whiteSpace: 'pre-wrap',
+              }}>
+                {executiveProfile}
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Example Loglines */}
         <div style={{ marginBottom: '32px' }}>
           <div style={{
             fontSize: '11px',
             textTransform: 'uppercase',
             letterSpacing: '2px',
-            color: '#666',
+            color: '#888',
             marginBottom: '12px',
             fontFamily: 'Inter, sans-serif',
           }}>
@@ -873,110 +971,13 @@ export default function DevelopmentAssistantPage() {
 
         {/* Form */}
         <form onSubmit={handleSubmit}>
-          {/* Executive Research Section */}
-          <div style={{
-            marginBottom: '32px',
-            padding: '20px',
-            backgroundColor: '#12121a',
-            border: '1px solid #2a2a3a',
-            borderRadius: '12px',
-          }}>
-            <label style={{
-              display: 'block',
-              fontSize: '11px',
-              textTransform: 'uppercase',
-              letterSpacing: '2px',
-              color: '#c9a227',
-              marginBottom: '12px',
-              fontFamily: 'Inter, sans-serif',
-            }}>
-              Pitching to an Executive? (Optional)
-            </label>
-            <p style={{
-              fontSize: '13px',
-              color: '#666',
-              marginBottom: '12px',
-              fontFamily: 'Inter, sans-serif',
-            }}>
-              Enter their name to research their preferences and tailor the pitch
-            </p>
-            <div style={{ display: 'flex', gap: '12px', marginBottom: executiveProfile ? '16px' : '0' }}>
-              <input
-                type="text"
-                value={executiveName}
-                onChange={(e) => setExecutiveName(e.target.value)}
-                placeholder="e.g., Ted Sarandos, Casey Bloys, Dana Walden..."
-                style={{
-                  flex: 1,
-                  padding: '14px 16px',
-                  fontSize: '15px',
-                  fontFamily: 'Inter, sans-serif',
-                  backgroundColor: '#0a0a0f',
-                  color: '#e5e5e5',
-                  border: '1px solid #2a2a3a',
-                  borderRadius: '8px',
-                }}
-              />
-              <button
-                type="button"
-                onClick={handleResearchExecutive}
-                disabled={isResearchingExecutive || !executiveName.trim()}
-                style={{
-                  padding: '14px 24px',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  fontFamily: 'Inter, sans-serif',
-                  backgroundColor: isResearchingExecutive ? '#2a2a3a' : executiveProfile ? '#059669' : '#7c3aed',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: isResearchingExecutive || !executiveName.trim() ? 'not-allowed' : 'pointer',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                {isResearchingExecutive ? 'Researching...' : executiveProfile ? 'Researched ✓' : 'Research'}
-              </button>
-            </div>
-            {executiveProfile && (
-              <div style={{
-                backgroundColor: '#0a0a0f',
-                border: '1px solid #2a2a3a',
-                borderRadius: '8px',
-                padding: '16px',
-                maxHeight: '200px',
-                overflowY: 'auto',
-              }}>
-                <div style={{
-                  fontSize: '10px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '2px',
-                  color: '#c9a227',
-                  marginBottom: '8px',
-                  fontFamily: 'Inter, sans-serif',
-                }}>
-                  Executive Profile
-                </div>
-                <div style={{
-                  fontSize: '13px',
-                  color: '#999',
-                  fontFamily: 'Inter, sans-serif',
-                  lineHeight: 1.6,
-                  whiteSpace: 'pre-wrap',
-                }}>
-                  {executiveProfile}
-                </div>
-              </div>
-            )}
-          </div>
-
           <div style={{ marginBottom: '24px' }}>
             <label style={{
               display: 'block',
               fontSize: '11px',
               textTransform: 'uppercase',
               letterSpacing: '2px',
-              color: '#888',
+              color: '#666',
               marginBottom: '12px',
               fontFamily: 'Inter, sans-serif',
             }}>
@@ -993,9 +994,9 @@ export default function DevelopmentAssistantPage() {
                 padding: '20px',
                 fontSize: '17px',
                 fontFamily: '"Playfair Display", Georgia, serif',
-                backgroundColor: '#12121a',
-                color: '#e5e5e5',
-                border: '1px solid #2a2a3a',
+                backgroundColor: '#ffffff',
+                color: '#1a1a1a',
+                border: '1px solid #e0e0e0',
                 borderRadius: '12px',
                 resize: 'vertical',
                 lineHeight: 1.7,
@@ -1017,7 +1018,7 @@ export default function DevelopmentAssistantPage() {
                 fontSize: '11px',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
-                color: '#888',
+                color: '#666',
                 marginBottom: '8px',
                 fontFamily: 'Inter, sans-serif',
               }}>
@@ -1035,9 +1036,9 @@ export default function DevelopmentAssistantPage() {
                       fontSize: '14px',
                       fontFamily: 'Inter, sans-serif',
                       fontWeight: 500,
-                      backgroundColor: format === f.value ? '#c9a227' : '#12121a',
-                      color: format === f.value ? '#0a0a0f' : '#888',
-                      border: `1px solid ${format === f.value ? '#c9a227' : '#2a2a3a'}`,
+                      backgroundColor: format === f.value ? '#c9a227' : '#ffffff',
+                      color: format === f.value ? '#ffffff' : '#666',
+                      border: `1px solid ${format === f.value ? '#c9a227' : '#e0e0e0'}`,
                       borderRadius: '8px',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
@@ -1055,7 +1056,7 @@ export default function DevelopmentAssistantPage() {
                 fontSize: '11px',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
-                color: '#888',
+                color: '#666',
                 marginBottom: '8px',
                 fontFamily: 'Inter, sans-serif',
               }}>
@@ -1069,13 +1070,13 @@ export default function DevelopmentAssistantPage() {
                   padding: '12px 16px',
                   fontSize: '14px',
                   fontFamily: 'Inter, sans-serif',
-                  backgroundColor: '#12121a',
-                  color: '#e5e5e5',
-                  border: '1px solid #2a2a3a',
+                  backgroundColor: '#ffffff',
+                  color: '#1a1a1a',
+                  border: '1px solid #e0e0e0',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   appearance: 'none',
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'right 12px center',
                 }}
@@ -1094,7 +1095,7 @@ export default function DevelopmentAssistantPage() {
               fontSize: '11px',
               textTransform: 'uppercase',
               letterSpacing: '2px',
-              color: '#888',
+              color: '#666',
               marginBottom: '8px',
               fontFamily: 'Inter, sans-serif',
             }}>
@@ -1111,9 +1112,9 @@ export default function DevelopmentAssistantPage() {
                     fontSize: '13px',
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 500,
-                    backgroundColor: budget === b.value ? '#c9a227' : '#12121a',
-                    color: budget === b.value ? '#0a0a0f' : '#888',
-                    border: `1px solid ${budget === b.value ? '#c9a227' : '#2a2a3a'}`,
+                    backgroundColor: budget === b.value ? '#c9a227' : '#ffffff',
+                    color: budget === b.value ? '#ffffff' : '#666',
+                    border: `1px solid ${budget === b.value ? '#c9a227' : '#e0e0e0'}`,
                     borderRadius: '8px',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
@@ -1136,9 +1137,9 @@ export default function DevelopmentAssistantPage() {
               fontWeight: 600,
               fontFamily: 'Inter, sans-serif',
               background: isGenerating || !logline.trim()
-                ? '#2a2a3a'
+                ? '#ccc'
                 : 'linear-gradient(135deg, #c9a227 0%, #d4af37 100%)',
-              color: isGenerating || !logline.trim() ? '#555' : '#0a0a0f',
+              color: isGenerating || !logline.trim() ? '#888' : '#ffffff',
               border: 'none',
               borderRadius: '12px',
               cursor: isGenerating || !logline.trim() ? 'not-allowed' : 'pointer',
@@ -1159,7 +1160,7 @@ export default function DevelopmentAssistantPage() {
             fontSize: '11px',
             textTransform: 'uppercase',
             letterSpacing: '2px',
-            color: '#555',
+            color: '#888',
             marginBottom: '16px',
             fontFamily: 'Inter, sans-serif',
           }}>
@@ -1174,11 +1175,11 @@ export default function DevelopmentAssistantPage() {
             fontSize: '13px',
             fontFamily: 'Inter, sans-serif',
           }}>
-            <span><span style={{ color: '#c9a227' }}>Executive-Tailored Pitch</span></span>
-            <span><span style={{ color: '#c9a227' }}>Outline</span></span>
-            <span><span style={{ color: '#c9a227' }}>Casting</span></span>
-            <span><span style={{ color: '#c9a227' }}>Opening Scene</span></span>
-            <span><span style={{ color: '#c9a227' }}>Poster Art</span></span>
+            <span><span style={{ color: '#8b6914' }}>Executive-Tailored Pitch</span></span>
+            <span><span style={{ color: '#8b6914' }}>Outline</span></span>
+            <span><span style={{ color: '#8b6914' }}>Casting</span></span>
+            <span><span style={{ color: '#8b6914' }}>Opening Scene</span></span>
+            <span><span style={{ color: '#8b6914' }}>Poster Art</span></span>
           </div>
         </div>
       </div>

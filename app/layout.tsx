@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Survey',
+  title: 'AI',
   description: 'Quick survey with AI-generated story',
 };
 
