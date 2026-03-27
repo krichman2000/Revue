@@ -26,25 +26,6 @@ const BUDGETS = [
   { value: 'tentpole', label: '$100M+', description: 'Franchise potential, global scale, major VFX/action' },
 ];
 
-const EXAMPLE_LOGLINES = [
-  {
-    genre: 'Thriller',
-    logline: 'A submarine captain discovers her first officer is a spy minutes before they receive orders to launch nuclear missiles, forcing her to stop him while maintaining the illusion of command.',
-  },
-  {
-    genre: 'Comedy',
-    logline: 'A recently divorced dad must coach his daughter\'s elite travel soccer team despite knowing nothing about the sport, accidentally leading them to the state championship through unconventional methods.',
-  },
-  {
-    genre: 'Drama',
-    logline: 'In 1962 Mississippi, a Black doctor secretly treats white patients during a polio outbreak, forming an unlikely alliance with a segregationist mayor whose son\'s life he saves.',
-  },
-  {
-    genre: 'Genre Mashup',
-    logline: 'A disgraced samurai fleeing 1870s Japan ends up in the American Wild West, where he must protect a frontier town from outlaws using a code of honor no one understands.',
-  },
-];
-
 type ActiveSection = 'pitch' | 'outline' | 'casting' | 'opening' | 'money';
 
 export default function DevelopmentAssistantPage() {
@@ -157,10 +138,6 @@ export default function DevelopmentAssistantPage() {
     } finally {
       setIsGenerating(false);
     }
-  };
-
-  const handleExampleClick = (example: typeof EXAMPLE_LOGLINES[0]) => {
-    setLogline(example.logline);
   };
 
   const generateSection = async (
@@ -980,31 +957,6 @@ export default function DevelopmentAssistantPage() {
               </div>
             </div>
           )}
-        </div>
-
-        {/* Example Loglines */}
-        <div style={{ marginBottom: '32px' }}>
-          <div style={{
-            fontSize: '11px',
-            textTransform: 'uppercase',
-            letterSpacing: '2px',
-            color: '#888',
-            marginBottom: '12px',
-            fontFamily: 'Inter, sans-serif',
-          }}>
-            Try an example
-          </div>
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            {EXAMPLE_LOGLINES.map((example, index) => (
-              <button
-                key={index}
-                onClick={() => handleExampleClick(example)}
-                className="genre-btn"
-              >
-                {example.genre}
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* Form */}
