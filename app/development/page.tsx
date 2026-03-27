@@ -45,7 +45,7 @@ const EXAMPLE_LOGLINES = [
   },
 ];
 
-type ActiveSection = 'pitch' | 'outline' | 'casting' | 'opening';
+type ActiveSection = 'pitch' | 'outline' | 'casting' | 'opening' | 'money';
 
 export default function DevelopmentAssistantPage() {
   const [logline, setLogline] = useState('');
@@ -66,9 +66,11 @@ export default function DevelopmentAssistantPage() {
   const [outlineContent, setOutlineContent] = useState('');
   const [castingContent, setCastingContent] = useState('');
   const [openingContent, setOpeningContent] = useState('');
+  const [moneyContent, setMoneyContent] = useState('');
   const [isGeneratingOutline, setIsGeneratingOutline] = useState(false);
   const [isGeneratingCasting, setIsGeneratingCasting] = useState(false);
   const [isGeneratingOpening, setIsGeneratingOpening] = useState(false);
+  const [isGeneratingMoney, setIsGeneratingMoney] = useState(false);
   const [isGeneratingPoster, setIsGeneratingPoster] = useState(false);
   const [posterUrl, setPosterUrl] = useState<string | null>(null);
 
@@ -124,6 +126,7 @@ export default function DevelopmentAssistantPage() {
     setOutlineContent('');
     setCastingContent('');
     setOpeningContent('');
+    setMoneyContent('');
     setPosterUrl(null);
     setActiveSection('pitch');
 
@@ -161,7 +164,7 @@ export default function DevelopmentAssistantPage() {
   };
 
   const generateSection = async (
-    section: 'outline' | 'casting' | 'opening',
+    section: 'outline' | 'casting' | 'opening' | 'money',
     endpoint: string,
     setContent: (content: string) => void,
     setLoading: (loading: boolean) => void
@@ -185,7 +188,7 @@ export default function DevelopmentAssistantPage() {
       }
 
       // Handle different response keys based on endpoint
-      const content = data.outline || data.casting || data.opening;
+      const content = data.outline || data.casting || data.opening || data.money;
       setContent(content);
     } catch {
       setError(`Failed to generate ${section}`);
@@ -328,6 +331,12 @@ export default function DevelopmentAssistantPage() {
             <h2>Opening Scene</h2>
             <div class="content" style="font-family: Courier, monospace; font-size: 12pt;">${openingContent}</div>
           ` : ''}
+
+          ${moneyContent ? `
+            <div class="page-break"></div>
+            <h2>Why This Will Make Money</h2>
+            <div class="content">${moneyContent}</div>
+          ` : ''}
         </body>
       </html>
     `;
@@ -346,6 +355,7 @@ export default function DevelopmentAssistantPage() {
     setOutlineContent('');
     setCastingContent('');
     setOpeningContent('');
+    setMoneyContent('');
     setError(null);
     setActiveSection('pitch');
     setPosterUrl(null);
@@ -389,20 +399,22 @@ export default function DevelopmentAssistantPage() {
         return castingContent;
       case 'opening':
         return openingContent;
+      case 'money':
+        return moneyContent;
       default:
         return '';
     }
   };
 
-  const isAnySectionLoading = isGenerating || isGeneratingOutline || isGeneratingCasting || isGeneratingOpening;
+  const isAnySectionLoading = isGenerating || isGeneratingOutline || isGeneratingCasting || isGeneratingOpening || isGeneratingMoney;
 
   // Results view
   if (fullContent || isGenerating) {
     return (
       <div style={{
         minHeight: '100vh',
-        backgroundColor: '#0a0a0f',
-        color: '#e5e5e5',
+        backgroundColor: '#f5f5f7',
+        color: '#1a1a1a',
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 24px' }}>
           {/* Header */}
@@ -412,7 +424,7 @@ export default function DevelopmentAssistantPage() {
               fontSize: '36px',
               fontWeight: 600,
               margin: 0,
-              background: 'linear-gradient(135deg, #c9a227 0%, #f4d03f 50%, #c9a227 100%)',
+              background: 'linear-gradient(135deg, #8b6914 0%, #c9a227 50%, #8b6914 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               letterSpacing: '-0.5px',
@@ -420,7 +432,7 @@ export default function DevelopmentAssistantPage() {
               Development Assistant
             </h1>
             <p style={{
-              color: '#888',
+              color: '#666',
               marginTop: '8px',
               fontFamily: 'Inter, sans-serif',
               fontSize: '14px',
@@ -433,11 +445,12 @@ export default function DevelopmentAssistantPage() {
 
           {/* Logline Display */}
           <div style={{
-            background: 'linear-gradient(135deg, #1a1a24 0%, #12121a 100%)',
-            border: '1px solid #2a2a3a',
+            background: '#ffffff',
+            border: '1px solid #e0e0e0',
             borderRadius: '12px',
             padding: '20px 24px',
             marginBottom: '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
           }}>
             <div style={{
               display: 'flex',
@@ -449,7 +462,7 @@ export default function DevelopmentAssistantPage() {
                 fontSize: '11px',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
-                color: '#c9a227',
+                color: '#8b6914',
                 fontFamily: 'Inter, sans-serif',
               }}>
                 Your Logline
@@ -460,31 +473,34 @@ export default function DevelopmentAssistantPage() {
               }}>
                 <span style={{
                   padding: '4px 12px',
-                  backgroundColor: '#2a2a3a',
+                  backgroundColor: '#f5f5f7',
                   borderRadius: '4px',
                   fontSize: '12px',
-                  color: '#c9a227',
+                  color: '#8b6914',
                   fontFamily: 'Inter, sans-serif',
+                  border: '1px solid #e0e0e0',
                 }}>
                   {getFormatLabel()}
                 </span>
                 <span style={{
                   padding: '4px 12px',
-                  backgroundColor: '#2a2a3a',
+                  backgroundColor: '#f5f5f7',
                   borderRadius: '4px',
                   fontSize: '12px',
-                  color: '#c9a227',
+                  color: '#8b6914',
                   fontFamily: 'Inter, sans-serif',
+                  border: '1px solid #e0e0e0',
                 }}>
                   {getPlatformLabel()}
                 </span>
                 <span style={{
                   padding: '4px 12px',
-                  backgroundColor: '#2a2a3a',
+                  backgroundColor: '#f5f5f7',
                   borderRadius: '4px',
                   fontSize: '12px',
-                  color: '#c9a227',
+                  color: '#8b6914',
                   fontFamily: 'Inter, sans-serif',
+                  border: '1px solid #e0e0e0',
                 }}>
                   {getBudgetLabel()}
                 </span>
@@ -507,7 +523,7 @@ export default function DevelopmentAssistantPage() {
               fontFamily: '"Playfair Display", Georgia, serif',
               fontSize: '18px',
               fontStyle: 'italic',
-              color: '#e5e5e5',
+              color: '#1a1a1a',
               lineHeight: 1.6,
             }}>
               &ldquo;{logline}&rdquo;
@@ -540,6 +556,7 @@ export default function DevelopmentAssistantPage() {
               { id: 'outline', label: 'Outline', ready: !!outlineContent, loading: isGeneratingOutline },
               { id: 'casting', label: 'Casting', ready: !!castingContent, loading: isGeneratingCasting },
               { id: 'opening', label: 'Opening Scene', ready: !!openingContent, loading: isGeneratingOpening },
+              { id: 'money', label: 'Why It Makes Money', ready: !!moneyContent, loading: isGeneratingMoney },
             ].map((section) => (
               <button
                 key={section.id}
@@ -550,9 +567,9 @@ export default function DevelopmentAssistantPage() {
                   fontSize: '13px',
                   fontWeight: 500,
                   fontFamily: 'Inter, sans-serif',
-                  backgroundColor: activeSection === section.id ? '#c9a227' : 'transparent',
-                  color: activeSection === section.id ? '#0a0a0f' : (section.ready || section.loading ? '#e5e5e5' : '#555'),
-                  border: `1px solid ${activeSection === section.id ? '#c9a227' : '#3a3a4a'}`,
+                  backgroundColor: activeSection === section.id ? '#c9a227' : '#ffffff',
+                  color: activeSection === section.id ? '#ffffff' : (section.ready || section.loading ? '#1a1a1a' : '#999'),
+                  border: `1px solid ${activeSection === section.id ? '#c9a227' : '#e0e0e0'}`,
                   borderRadius: '6px',
                   cursor: section.ready || section.loading ? 'pointer' : 'not-allowed',
                   transition: 'all 0.2s ease',
@@ -568,16 +585,16 @@ export default function DevelopmentAssistantPage() {
           {/* Content Area */}
           <div
             ref={contentRef}
-            className="golden-glow"
             style={{
-              backgroundColor: '#12121a',
-              border: '1px solid #2a2a3a',
+              backgroundColor: '#ffffff',
+              border: '1px solid #e0e0e0',
               borderRadius: '12px',
               padding: '32px',
               minHeight: '400px',
               maxHeight: '60vh',
               overflowY: 'auto',
               marginBottom: '24px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}
           >
             {isAnySectionLoading && !getSectionContent() ? (
@@ -591,7 +608,7 @@ export default function DevelopmentAssistantPage() {
               }}>
                 <div className="spinner" />
                 <p style={{
-                  color: '#888',
+                  color: '#666',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '14px',
                 }}>
@@ -605,7 +622,7 @@ export default function DevelopmentAssistantPage() {
                   fontFamily: activeSection === 'opening' ? 'Courier, monospace' : '"Playfair Display", Georgia, serif',
                   fontSize: activeSection === 'opening' ? '14px' : '16px',
                   lineHeight: 1.8,
-                  color: '#d5d5d5',
+                  color: '#1a1a1a',
                   whiteSpace: 'pre-wrap',
                 }}
               >
@@ -634,7 +651,7 @@ export default function DevelopmentAssistantPage() {
                     fontSize: '14px',
                     fontWeight: 500,
                     fontFamily: 'Inter, sans-serif',
-                    backgroundColor: isGeneratingOutline ? '#2a2a3a' : '#7c3aed',
+                    backgroundColor: isGeneratingOutline ? '#ccc' : '#7c3aed',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -654,7 +671,7 @@ export default function DevelopmentAssistantPage() {
                     fontSize: '14px',
                     fontWeight: 500,
                     fontFamily: 'Inter, sans-serif',
-                    backgroundColor: isGeneratingCasting ? '#2a2a3a' : '#059669',
+                    backgroundColor: isGeneratingCasting ? '#ccc' : '#059669',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -674,7 +691,7 @@ export default function DevelopmentAssistantPage() {
                     fontSize: '14px',
                     fontWeight: 500,
                     fontFamily: 'Inter, sans-serif',
-                    backgroundColor: isGeneratingOpening ? '#2a2a3a' : '#dc2626',
+                    backgroundColor: isGeneratingOpening ? '#ccc' : '#dc2626',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -685,6 +702,26 @@ export default function DevelopmentAssistantPage() {
                   {isGeneratingOpening ? 'Writing...' : 'Write Opening Scene'}
                 </button>
               )}
+              {!moneyContent && (
+                <button
+                  onClick={() => generateSection('money', '/api/development-assistant/money', setMoneyContent, setIsGeneratingMoney)}
+                  disabled={isGeneratingMoney}
+                  style={{
+                    padding: '14px 20px',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    fontFamily: 'Inter, sans-serif',
+                    backgroundColor: isGeneratingMoney ? '#ccc' : '#0891b2',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: isGeneratingMoney ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  {isGeneratingMoney ? 'Analyzing...' : 'Why It Makes Money'}
+                </button>
+              )}
               <button
                 onClick={handleDownloadPDF}
                 style={{
@@ -692,8 +729,8 @@ export default function DevelopmentAssistantPage() {
                   fontSize: '14px',
                   fontWeight: 500,
                   fontFamily: 'Inter, sans-serif',
-                  backgroundColor: 'transparent',
-                  color: '#c9a227',
+                  backgroundColor: '#ffffff',
+                  color: '#8b6914',
                   border: '1px solid #c9a227',
                   borderRadius: '8px',
                   cursor: 'pointer',
@@ -711,7 +748,7 @@ export default function DevelopmentAssistantPage() {
                     fontSize: '14px',
                     fontWeight: 500,
                     fontFamily: 'Inter, sans-serif',
-                    backgroundColor: isGeneratingPoster ? '#2a2a3a' : '#e11d48',
+                    backgroundColor: isGeneratingPoster ? '#ccc' : '#e11d48',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -730,16 +767,17 @@ export default function DevelopmentAssistantPage() {
             <div style={{
               marginBottom: '16px',
               padding: '24px',
-              backgroundColor: '#12121a',
-              border: '1px solid #2a2a3a',
+              backgroundColor: '#ffffff',
+              border: '1px solid #e0e0e0',
               borderRadius: '12px',
               textAlign: 'center',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}>
               <div style={{
                 fontSize: '11px',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
-                color: '#c9a227',
+                color: '#8b6914',
                 marginBottom: '16px',
                 fontFamily: 'Inter, sans-serif',
               }}>
@@ -752,7 +790,7 @@ export default function DevelopmentAssistantPage() {
                   maxWidth: '300px',
                   width: '100%',
                   borderRadius: '8px',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
                 }}
               />
               <div style={{ marginTop: '16px' }}>
@@ -761,7 +799,7 @@ export default function DevelopmentAssistantPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    color: '#c9a227',
+                    color: '#8b6914',
                     fontSize: '13px',
                     fontFamily: 'Inter, sans-serif',
                   }}
@@ -781,9 +819,9 @@ export default function DevelopmentAssistantPage() {
               fontSize: '15px',
               fontWeight: 500,
               fontFamily: 'Inter, sans-serif',
-              backgroundColor: '#1a1a24',
-              color: '#888',
-              border: '1px solid #2a2a3a',
+              backgroundColor: '#ffffff',
+              color: '#666',
+              border: '1px solid #e0e0e0',
               borderRadius: '8px',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
