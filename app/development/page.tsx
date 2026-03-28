@@ -406,7 +406,7 @@ export default function DevelopmentAssistantPage() {
               WebkitTextFillColor: 'transparent',
               letterSpacing: '-0.5px',
             }}>
-              Development Assistant
+              Stanford Alumni Development Accelerator
             </h1>
             <p style={{
               color: '#666',
@@ -834,7 +834,7 @@ export default function DevelopmentAssistantPage() {
             WebkitTextFillColor: 'transparent',
             letterSpacing: '-0.5px',
           }}>
-            Development Assistant
+            Stanford Alumni Development Accelerator
           </h1>
           <p style={{
             color: '#666',

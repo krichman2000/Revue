@@ -35,13 +35,13 @@ export async function POST(request: Request) {
 
 Style requirements:
 - Professional Hollywood movie poster composition
-- Dramatic lighting and mood appropriate to the genre
+- Natural, realistic lighting appropriate to the genre (not hyper-stylized or CGI-looking)
 - ${format === 'series' ? 'TV series poster style with ensemble feel' : 'Feature film theatrical poster style'}
 - No text, titles, or words on the poster - just the visual imagery
-- Photorealistic cinematic quality
+- Realistic photographic quality like an actual film still or promotional photo
 - Strong central composition with depth
-- Color palette that evokes the tone of the story
-- Could hang in a movie theater lobby
+- Natural color grading that evokes the tone of the story
+- Should look like a real photograph that could be used for marketing
 
 Additional context: ${plotSummary ? plotSummary.slice(0, 500) : 'A compelling story for ' + platform}`;
 
@@ -51,7 +51,7 @@ Additional context: ${plotSummary ? plotSummary.slice(0, 500) : 'A compelling st
       n: 1,
       size: '1024x1792', // Portrait orientation for movie poster
       quality: 'hd',
-      style: 'vivid',
+      style: 'natural',
     });
 
     if (!response.data || response.data.length === 0) {
